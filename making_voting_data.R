@@ -35,7 +35,7 @@ for (i in 1:37) {
 }
 
   
-## fixing the no-headers ones
+## adding headers to the no-headers ones
 colnames(results_pct_20020910) <- colnames(results_pct_20041102)
   colnames(results_pct_20020910)[4] <- "precinct"
 colnames(results_pct_20021105) <- colnames(results_pct_20020910)
@@ -84,6 +84,32 @@ rm(results_pct_20180626)  # local
 results_pct_20181106 <- results_pct_20181106[grepl("US HOUSE", as.character(results_pct_20181106$Contest.Name)),]
 
 
+ls(pattern="results_pct_.*")
+
+
+## only keeping the relevant variables: 
+#    county   precinct_code   precinct  party   ballot_counts (this can be >=1 vars)
+for (dfName in ls(pattern="results_pct_.*")[1:7]) {
+  df <- get(dfName)
+  df <- df[,c(1,3,4,7,8)]
+  assign(dfName, df)
+}
+results_pct_20080506 <- results_pct_20080506[,c(1,3,6,7:10)]
+results_pct_20081104 <- results_pct_20081104[,c(1,2,9,10:13)]
+for (dfName in ls(pattern="results_pct_.*")[10:15]) {
+  df <- get(dfName)
+  df <- df[,c(1,2,9,10:14)]
+  assign(dfName, df)
+}
+for (dfName in ls(pattern="results_pct_.*")[16:21]) {
+  df <- get(dfName)
+  df <- df[,c(1,3,8,10:14)]
+  assign(dfName, df)
+}
+results_pct_20181106 <- results_pct_20181106[,c(1,3,8,10:15)]
+
+
+
 
 ## next steps:
 #    
@@ -92,48 +118,8 @@ results_pct_20181106 <- results_pct_20181106[grepl("US HOUSE", as.character(resu
 #    - do this for the files that contain the demographic data
 #    
 
-
-
-
-
-
-
-
-# #####
-# results_pct_20020910 
-# results_pct_20021105 
-# results_pct_20040720 
-# results_pct_20040817 
-# results_pct_20041102
-# results_pct_20060502 
-# results_pct_20060530 
-# results_pct_20060912 
-# results_pct_20061107 
-# results_pct_20080506
-# results_pct_20081104 
-# results_pct_20100504 
-# results_pct_20100622 
-# results_pct_20101102 
-# results_pct_20110913
-# results_pct_20111011 
-# results_pct_20111108 
-# results_pct_20120508 
-# results_pct_20120717 
-# results_pct_20121106
-# results_pct_20130910 
-# results_pct_20131008 
-# results_pct_20140506 
-# results_pct_20140715 
-# results_pct_20141104
-# results_pct_20150915 
-# results_pct_20151006 
-# results_pct_20151103 
-# results_pct_20160315 
-# results_pct_20160607
-# results_pct_20161108 
-# results_pct_20170912 
-# results_pct_20171010 
-# results_pct_20171107 
-# results_pct_20180508
-# results_pct_20180626 
-# results_pct_20181106 
+for (dfName in ls(pattern="results_pct_.*")) {
+  df <- get(dfName)
+  print(names(df))
+  cat("\n")
+}
