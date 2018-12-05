@@ -262,11 +262,21 @@ for (i in 1:length(unique(results_pct_20181106$Precinct))) {
 
 
 
+# confirm that the really low precint numbers aren't an error
+#   MAY BE DUPLICATE PRECINTS (eg "precint 04") across different counties
+# remove all the whitespace
+# change everything to lowercase
 
-
-
-
-
+sort(tolower(trimws(precinct_2002$precinct)))
+sort(tolower(trimws(precinct_2002$precinct)))
+sort(tolower(trimws(precinct_2004$precinct)))
+sort(tolower(trimws(precinct_2006$precinct)))
+sort(tolower(trimws(precinct_2008$precinct)))
+sort(tolower(trimws(precinct_2010$precinct)))
+sort(tolower(trimws(precinct_2012$precinct)))
+sort(tolower(trimws(precinct_2014$precinct)))
+sort(tolower(trimws(precinct_2016$precinct)))
+sort(tolower(trimws(precinct_2018$precinct)))
 
 
 
@@ -275,7 +285,11 @@ for (i in 1:length(unique(results_pct_20181106$Precinct))) {
 
 ## next steps:
 # 
-#    - do this for the files that contain the demographic data
+#    - do this for the files that contain the demographic data !!
+#    -   `--> keep ALL age categories, ALL ethnic/race, 
+#    -   `--> % unaffilate
+#    - keep total votes
+#    - meet Thursday @ noon
 #    
 
 # count <- 0
