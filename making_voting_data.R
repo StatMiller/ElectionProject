@@ -286,3 +286,4 @@ for (i in 1:nrow(uniqVals)) {
 votes_2018 <- votes_2018[with(votes_2018, order(county, precinct)), ]
 
 
+# save.image("./final_data/votingData.RData")

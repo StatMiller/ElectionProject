@@ -386,5 +386,4 @@ for (i in 1:nrow(uniqVals)) {
 demo_2018 <- demo_2018[with(demo_2018, order(county, precinct_abbrv)), ]
 
 
-
-
+# save.image("./final_data/demographicData.RData")
