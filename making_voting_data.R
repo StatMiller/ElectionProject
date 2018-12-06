@@ -112,19 +112,9 @@ rm(results_pct_20020910, results_pct_20040720, results_pct_20040817, results_pct
    results_pct_20180508)
 
 
-## including only DEM/REP votes
-results_pct_20021105 <- results_pct_20021105[as.character(results_pct_20021105$party_cd) %in% c("DEM","REP"),]
-results_pct_20041102 <- results_pct_20041102[as.character(results_pct_20041102$party_cd) %in% c("DEM","REP"),]
-results_pct_20061107 <- results_pct_20061107[as.character(results_pct_20061107$party_cd) %in% c("DEM","REP"),]
-results_pct_20081104 <- results_pct_20081104[as.character(results_pct_20081104$party) %in% c("DEM","REP"),]
-results_pct_20101102 <- results_pct_20101102[as.character(results_pct_20101102$party) %in% c("DEM","REP"),]
-results_pct_20121106 <- results_pct_20121106[as.character(results_pct_20121106$party) %in% c("DEM","REP"),]
-results_pct_20141104 <- results_pct_20141104[as.character(results_pct_20141104$Choice.Party) %in% c("DEM","REP"),]
-results_pct_20161108 <- results_pct_20161108[as.character(results_pct_20161108$Choice.Party) %in% c("DEM","REP"),]
-results_pct_20181106 <- results_pct_20181106[as.character(results_pct_20181106$Choice.Party) %in% c("DEM","REP"),]
-
-
 ## generating the variables of interest at the precinct level
+#
+#   precint/county info      DEM_count   REP_count   total_count
 
 # 2002
 results_pct_20021105$county <- trimws(results_pct_20021105$county)
@@ -132,7 +122,7 @@ results_pct_20021105$precinct_abbrv <- trimws(results_pct_20021105$precinct_abbr
 results_pct_20021105$precinct <- trimws(results_pct_20021105$precinct)
 uniqVals <- unique(results_pct_20021105[,c("county", "precinct_abbrv")])
 votes_2002 <- setNames(data.frame(matrix(ncol=6,nrow=nrow(uniqVals))), 
-    c("county","precinct_abbrv","precinct","dem_votes","rep_votes","pct_dem"))
+    c("county","precinct_abbrv","precinct","dem_votes","rep_votes","total_votes"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -142,7 +132,7 @@ for (i in 1:nrow(uniqVals)) {
   votes_2002$precinct[i] <- as.character(df$precinct[1])
   votes_2002$dem_votes[i] <- sum(df[as.character(df$party_cd) == "DEM",]$ballot_count)
   votes_2002$rep_votes[i] <- sum(df[as.character(df$party_cd) == "REP",]$ballot_count)
-  votes_2002$pct_dem[i] <- votes_2002$dem_votes[i]/(votes_2002$dem_votes[i] + votes_2002$rep_votes[i])
+  votes_2002$total_votes[i] <- sum(df$ballot_count)
 }; rm(df, results_pct_20021105)
 votes_2002 <- votes_2002[with(votes_2002, order(county, precinct_abbrv)), ]
 
@@ -152,7 +142,7 @@ results_pct_20041102$precinct_abbrv <- trimws(results_pct_20041102$precinct_abbr
 results_pct_20041102$precinct <- trimws(results_pct_20041102$precinct)
 uniqVals <- unique(results_pct_20041102[,c("county", "precinct_abbrv")])   
 votes_2004 <- setNames(data.frame(matrix(ncol=6,nrow=nrow(uniqVals))), 
-    c("county","precinct_abbrv","precinct","dem_votes","rep_votes","pct_dem"))
+    c("county","precinct_abbrv","precinct","dem_votes","rep_votes","total_votes"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -162,7 +152,7 @@ for (i in 1:nrow(uniqVals)) {
   votes_2004$precinct[i] <- as.character(df$precinct[1])
   votes_2004$dem_votes[i] <- sum(df[as.character(df$party_cd) == "DEM",]$ballot_count)
   votes_2004$rep_votes[i] <- sum(df[as.character(df$party_cd) == "REP",]$ballot_count)
-  votes_2004$pct_dem[i] <- votes_2004$dem_votes[i]/(votes_2004$dem_votes[i] + votes_2004$rep_votes[i])
+  votes_2004$total_votes[i] <- sum(df$ballot_count)
 }; rm(df, results_pct_20041102)
 votes_2004 <- votes_2004[with(votes_2004, order(county, precinct_abbrv)), ]
 
@@ -172,7 +162,7 @@ results_pct_20061107$precinct_abbrv <- trimws(results_pct_20061107$precinct_abbr
 results_pct_20061107$precinct <- trimws(results_pct_20061107$precinct)
 uniqVals <- unique(results_pct_20061107[,c("county", "precinct_abbrv")])
 votes_2006 <- setNames(data.frame(matrix(ncol=6,nrow=nrow(uniqVals))), 
-    c("county","precinct_abbrv","precinct","dem_votes","rep_votes","pct_dem"))
+    c("county","precinct_abbrv","precinct","dem_votes","rep_votes","total_votes"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -182,7 +172,7 @@ for (i in 1:nrow(uniqVals)) {
   votes_2006$precinct[i] <- as.character(df$precinct[1])
   votes_2006$dem_votes[i] <- sum(df[as.character(df$party_cd) == "DEM",]$ballot_count)
   votes_2006$rep_votes[i] <- sum(df[as.character(df$party_cd) == "REP",]$ballot_count)
-  votes_2006$pct_dem[i] <- votes_2006$dem_votes[i]/(votes_2006$dem_votes[i] + votes_2006$rep_votes[i])
+  votes_2006$total_votes[i] <- sum(df$ballot_count)
 }; rm(df, results_pct_20061107)
 votes_2006 <- votes_2006[with(votes_2006, order(county, precinct_abbrv)), ]
 
@@ -190,9 +180,8 @@ votes_2006 <- votes_2006[with(votes_2006, order(county, precinct_abbrv)), ]
 results_pct_20081104$county <- trimws(results_pct_20081104$county)
 results_pct_20081104$precinct <- trimws(results_pct_20081104$precinct)
 uniqVals <- unique(results_pct_20081104[,c("county", "precinct")])
-votes_2008 <- setNames(data.frame(matrix(ncol=8,nrow=nrow(uniqVals))), 
-    c("county","precinct","dem_votes","rep_votes","pct_dem","pct_electionDay",
-        "pct_absentee.oneStop","pct_provisional"))
+votes_2008 <- setNames(data.frame(matrix(ncol=5,nrow=nrow(uniqVals))), 
+    c("county","precinct","dem_votes","rep_votes","total_votes"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -201,10 +190,7 @@ for (i in 1:nrow(uniqVals)) {
   votes_2008$precinct[i] <- as.character(df$precinct[1])
   votes_2008$dem_votes[i] <- sum(df[as.character(df$party) == "DEM",]$total.votes)
   votes_2008$rep_votes[i] <- sum(df[as.character(df$party) == "REP",]$total.votes)
-  votes_2008$pct_dem[i] <- votes_2008$dem_votes[i]/(votes_2008$dem_votes[i] + votes_2008$rep_votes[i])
-  votes_2008$pct_electionDay[i] <- sum(df$Election.Day)/sum(df$total.votes)
-  votes_2008$pct_absentee.oneStop[i] <- sum(df$Absentee...One.Stop)/sum(df$total.votes)
-  votes_2008$pct_provisional[i] <- sum(df$Provisional)/sum(df$total.votes)
+  votes_2008$total_votes[i] <- sum(df$total.votes)
 }; rm(df, results_pct_20081104)
 votes_2008 <- votes_2008[with(votes_2008, order(county, precinct)), ]
 
@@ -212,9 +198,8 @@ votes_2008 <- votes_2008[with(votes_2008, order(county, precinct)), ]
 results_pct_20101102$county <- trimws(results_pct_20101102$county)
 results_pct_20101102$precinct <- trimws(results_pct_20101102$precinct)
 uniqVals <- unique(results_pct_20101102[,c("county", "precinct")])
-votes_2010 <- setNames(data.frame(matrix(ncol=9,nrow=nrow(uniqVals))), 
-    c("county","precinct","dem_votes","rep_votes","pct_dem","pct_electionDay",
-        "pct_absentee","pct_oneStop","pct_provisional"))
+votes_2010 <- setNames(data.frame(matrix(ncol=5,nrow=nrow(uniqVals))), 
+    c("county","precinct","dem_votes","rep_votes","total_votes"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -223,11 +208,7 @@ for (i in 1:nrow(uniqVals)) {
   votes_2010$precinct[i] <- as.character(df$precinct[1])
   votes_2010$dem_votes[i] <- sum(df[as.character(df$party) == "DEM",]$total.votes)
   votes_2010$rep_votes[i] <- sum(df[as.character(df$party) == "REP",]$total.votes)
-  votes_2010$pct_dem[i] <- votes_2010$dem_votes[i]/(votes_2010$dem_votes[i] + votes_2010$rep_votes[i])
-  votes_2010$pct_electionDay[i] <- sum(df$Election.Day)/sum(df$total.votes)
-  votes_2010$pct_absentee[i] <- sum(df$Absentee.by.Mail)/sum(df$total.votes)
-  votes_2010$pct_oneStop[i] <- sum(df$One.Stop)/sum(df$total.votes)
-  votes_2010$pct_provisional[i] <- sum(df$Provisional)/sum(df$total.votes)
+  votes_2010$total_votes[i] <- sum(df$total.votes)
 }; rm(df, results_pct_20101102)
 votes_2010 <- votes_2010[with(votes_2010, order(county, precinct)), ]
 
@@ -235,9 +216,8 @@ votes_2010 <- votes_2010[with(votes_2010, order(county, precinct)), ]
 results_pct_20121106$county <- trimws(results_pct_20121106$county)
 results_pct_20121106$precinct <- trimws(results_pct_20121106$precinct)
 uniqVals <- unique(results_pct_20121106[,c("county", "precinct")])
-votes_2012 <- setNames(data.frame(matrix(ncol=9,nrow=nrow(uniqVals))), 
-    c("county","precinct","dem_votes","rep_votes","pct_dem","pct_electionDay",
-         "pct_absentee","pct_oneStop","pct_provisional"))
+votes_2012 <- setNames(data.frame(matrix(ncol=5,nrow=nrow(uniqVals))), 
+    c("county","precinct","dem_votes","rep_votes","total_votes"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -246,11 +226,7 @@ for (i in 1:nrow(uniqVals)) {
   votes_2012$precinct[i] <- as.character(df$precinct[1])
   votes_2012$dem_votes[i] <- sum(df[as.character(df$party) == "DEM",]$total.votes)
   votes_2012$rep_votes[i] <- sum(df[as.character(df$party) == "REP",]$total.votes)
-  votes_2012$pct_dem[i] <- votes_2012$dem_votes[i]/(votes_2012$dem_votes[i] + votes_2012$rep_votes[i])
-  votes_2012$pct_electionDay[i] <- sum(df$Election.Day)/sum(df$total.votes)
-  votes_2012$pct_absentee[i] <- sum(df$Absentee.by.Mail)/sum(df$total.votes)
-  votes_2012$pct_oneStop[i] <- sum(df$One.Stop)/sum(df$total.votes)
-  votes_2012$pct_provisional[i] <- sum(df$Provisional)/sum(df$total.votes)
+  votes_2012$total_votes[i] <- sum(df$total.votes)
 }; rm(df, results_pct_20121106)
 votes_2012 <- votes_2012[with(votes_2012, order(county, precinct)), ]
 
@@ -258,9 +234,8 @@ votes_2012 <- votes_2012[with(votes_2012, order(county, precinct)), ]
 results_pct_20141104$County <- trimws(results_pct_20141104$County)
 results_pct_20141104$Precinct <- trimws(results_pct_20141104$Precinct)
 uniqVals <- unique(results_pct_20141104[,c("County", "Precinct")])
-votes_2014 <- setNames(data.frame(matrix(ncol=9,nrow=nrow(uniqVals))), 
-    c("county","precinct","dem_votes","rep_votes","pct_dem","pct_electionDay",
-         "pct_absentee","pct_oneStop","pct_provisional"))
+votes_2014 <- setNames(data.frame(matrix(ncol=5,nrow=nrow(uniqVals))), 
+    c("county","precinct","dem_votes","rep_votes","total_votes"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -269,11 +244,7 @@ for (i in 1:nrow(uniqVals)) {
   votes_2014$precinct[i] <- as.character(df$Precinct[1])
   votes_2014$dem_votes[i] <- sum(df[as.character(df$Choice.Party) == "DEM",]$Total.Votes)
   votes_2014$rep_votes[i] <- sum(df[as.character(df$Choice.Party) == "REP",]$Total.Votes)
-  votes_2014$pct_dem[i] <- votes_2014$dem_votes[i]/(votes_2014$dem_votes[i] + votes_2014$rep_votes[i])
-  votes_2014$pct_electionDay[i] <- sum(df$Election.Day)/sum(df$Total.Votes)
-  votes_2014$pct_absentee[i] <- sum(df$Absentee.by.Mail)/sum(df$Total.Votes)
-  votes_2014$pct_oneStop[i] <- sum(df$One.Stop)/sum(df$Total.Votes)
-  votes_2014$pct_provisional[i] <- sum(df$Provisional)/sum(df$Total.Votes)
+  votes_2014$total_votes[i] <- sum(df$Total.Votes)
 }; rm(df, results_pct_20141104, uniqVals)
 votes_2014 <- votes_2014[with(votes_2014, order(county, precinct)), ]
 
@@ -281,9 +252,8 @@ votes_2014 <- votes_2014[with(votes_2014, order(county, precinct)), ]
 results_pct_20161108$County <- trimws(results_pct_20161108$County)
 results_pct_20161108$Precinct <- trimws(results_pct_20161108$Precinct)
 uniqVals <- unique(results_pct_20161108[,c("County", "Precinct")])
-votes_2016 <- setNames(data.frame(matrix(ncol=9,nrow=nrow(uniqVals))), 
-    c("county","precinct","dem_votes","rep_votes","pct_dem","pct_electionDay",
-         "pct_absentee","pct_oneStop","pct_provisional"))
+votes_2016 <- setNames(data.frame(matrix(ncol=5,nrow=nrow(uniqVals))), 
+    c("county","precinct","dem_votes","rep_votes","total_votes"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -292,11 +262,7 @@ for (i in 1:nrow(uniqVals)) {
   votes_2016$precinct[i] <- as.character(df$Precinct[1])
   votes_2016$dem_votes[i] <- sum(df[as.character(df$Choice.Party) == "DEM",]$Total.Votes)
   votes_2016$rep_votes[i] <- sum(df[as.character(df$Choice.Party) == "REP",]$Total.Votes)
-  votes_2016$pct_dem[i] <- votes_2016$dem_votes[i]/(votes_2016$dem_votes[i] + votes_2016$rep_votes[i])
-  votes_2016$pct_electionDay[i] <- sum(df$Election.Day)/sum(df$Total.Votes)
-  votes_2016$pct_absentee[i] <- sum(df$Absentee.by.Mail)/sum(df$Total.Votes)
-  votes_2016$pct_oneStop[i] <- sum(df$One.Stop)/sum(df$Total.Votes)
-  votes_2016$pct_provisional[i] <- sum(df$Provisional)/sum(df$Total.Votes)
+  votes_2016$total_votes[i] <- sum(df$Total.Votes)
 }; rm(df, results_pct_20161108)
 votes_2016 <- votes_2016[with(votes_2016, order(county, precinct)), ]
 
@@ -304,9 +270,8 @@ votes_2016 <- votes_2016[with(votes_2016, order(county, precinct)), ]
 results_pct_20181106$County <- trimws(results_pct_20181106$County)
 results_pct_20181106$Precinct <- trimws(results_pct_20181106$Precinct)
 uniqVals <- unique(results_pct_20181106[,c("County", "Precinct")])
-votes_2018 <- setNames(data.frame(matrix(ncol=10,nrow=nrow(uniqVals))), 
-    c("county","precinct","dem_votes","rep_votes","pct_dem","pct_electionDay",
-          "pct_absentee","pct_oneStop","pct_provisional","real_precinct"))
+votes_2018 <- setNames(data.frame(matrix(ncol=6,nrow=nrow(uniqVals))), 
+    c("county","precinct","dem_votes","rep_votes","total_votes","real_precinct"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -315,12 +280,9 @@ for (i in 1:nrow(uniqVals)) {
   votes_2018$precinct[i] <- as.character(df$Precinct[1])
   votes_2018$dem_votes[i] <- sum(df[as.character(df$Choice.Party) == "DEM",]$Total.Votes)
   votes_2018$rep_votes[i] <- sum(df[as.character(df$Choice.Party) == "REP",]$Total.Votes)
-  votes_2018$pct_dem[i] <- votes_2018$dem_votes[i]/(votes_2018$dem_votes[i] + votes_2018$rep_votes[i])
-  votes_2018$pct_electionDay[i] <- sum(df$Election.Day)/sum(df$Total.Votes)
-  votes_2018$pct_absentee[i] <- sum(df$Absentee.by.Mail)/sum(df$Total.Votes)
-  votes_2018$pct_oneStop[i] <- sum(df$One.Stop)/sum(df$Total.Votes)
-  votes_2018$pct_provisional[i] <- sum(df$Provisional)/sum(df$Total.Votes)
+  votes_2018$total_votes[i] <- sum(df$Total.Votes)
   votes_2018$real_precinct[i] <- as.character(df$Real.Precinct[1])
 }; rm(df, results_pct_20181106, i, uniqVals, Pval, Cval)
 votes_2018 <- votes_2018[with(votes_2018, order(county, precinct)), ]
+
 
