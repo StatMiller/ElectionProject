@@ -50,10 +50,12 @@ voter_stats_20021105$precinct_abbrv <- trimws(voter_stats_20021105$precinct_abbr
 voter_stats_20021105$race_code <- trimws(voter_stats_20021105$race_code)
 voter_stats_20021105$ethnic_code <- trimws(voter_stats_20021105$ethnic_code)
 uniqVals <- unique(voter_stats_20021105[,c("county_desc", "precinct_abbrv")])
-demo_2002 <- setNames(data.frame(matrix(ncol=20,nrow=nrow(uniqVals))), 
+# demo_2002 <- setNames(data.frame(matrix(ncol=20,nrow=nrow(uniqVals))), 
+demo_2002 <- setNames(data.frame(matrix(ncol=22,nrow=nrow(uniqVals))), 
     c("county","precinct_abbrv", "total_voters","ageInvalid","age18_25","age26_40","age41_65","age65_",
       "race_black", "race_AmIndian", "race_other_noRspns", "race_white", "race_asian", "race_multiple",
-      "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse"))
+#       "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse"))
+      "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse", "party_D", "party_R"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -76,8 +78,12 @@ for (i in 1:nrow(uniqVals)) {
   demo_2002$ethn_nonHisp[i] <- sum(df[as.character(df$ethnic_code)=="NL",]$total_voters)
   demo_2002$ethn_noRspns[i] <- sum(df[is.na(df$ethnic_code) | as.character(df$ethnic_code)=="UN",]$total_voters)
   demo_2002$sex_male[i]     <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
-  demo_2002$sex_female[i]   <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
+  demo_2002$sex_female[i]   <- sum(df[as.character(df$sex_code)=="F",]$total_voters)
   demo_2002$sex_noRspnse[i] <- sum(df[is.na(df$sex_code) | as.character(df$sex_code)=="U",]$total_voters)
+  ####
+  demo_2002$party_D[i]     <- sum(df[as.character(df$party_cd)=="DEM",]$total_voters)
+  demo_2002$party_R[i]     <- sum(df[as.character(df$party_cd)=="REP",]$total_voters)
+  ####
 }; rm(df, voter_stats_20021105)
 demo_2002 <- demo_2002[with(demo_2002, order(county, precinct_abbrv)), ]
 
@@ -87,10 +93,10 @@ voter_stats_20041102$precinct_abbrv <- trimws(voter_stats_20041102$precinct_abbr
 voter_stats_20041102$race_code <- trimws(voter_stats_20041102$race_code)
 voter_stats_20041102$ethnic_code <- trimws(voter_stats_20041102$ethnic_code)
 uniqVals <- unique(voter_stats_20041102[,c("county_desc", "precinct_abbrv")])
-demo_2004 <- setNames(data.frame(matrix(ncol=20,nrow=nrow(uniqVals))), 
+demo_2004 <- setNames(data.frame(matrix(ncol=22,nrow=nrow(uniqVals))), 
                       c("county","precinct_abbrv", "total_voters","ageInvalid","age18_25","age26_40","age41_65","age65_",
                         "race_black", "race_AmIndian", "race_other_noRspns", "race_white", "race_asian", "race_multiple",
-                        "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse"))
+                        "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse", "party_D", "party_R"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -113,8 +119,12 @@ for (i in 1:nrow(uniqVals)) {
   demo_2004$ethn_nonHisp[i] <- sum(df[as.character(df$ethnic_code)=="NL",]$total_voters)
   demo_2004$ethn_noRspns[i] <- sum(df[is.na(df$ethnic_code) | as.character(df$ethnic_code)=="UN",]$total_voters)
   demo_2004$sex_male[i]     <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
-  demo_2004$sex_female[i]   <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
+  demo_2004$sex_female[i]   <- sum(df[as.character(df$sex_code)=="F",]$total_voters)
   demo_2004$sex_noRspnse[i] <- sum(df[is.na(df$sex_code) | as.character(df$sex_code)=="U",]$total_voters)
+  ####
+  demo_2004$party_D[i]     <- sum(df[as.character(df$party_cd)=="DEM",]$total_voters)
+  demo_2004$party_R[i]     <- sum(df[as.character(df$party_cd)=="REP",]$total_voters)
+  ####
 }; rm(df, voter_stats_20041102)
 demo_2004 <- demo_2004[with(demo_2004, order(county, precinct_abbrv)), ]
 
@@ -124,10 +134,10 @@ voter_stats_20061107$precinct_abbrv <- trimws(voter_stats_20061107$precinct_abbr
 voter_stats_20061107$race_code <- trimws(voter_stats_20061107$race_code)
 voter_stats_20061107$ethnic_code <- trimws(voter_stats_20061107$ethnic_code)
 uniqVals <- unique(voter_stats_20061107[,c("county_desc", "precinct_abbrv")])
-demo_2006 <- setNames(data.frame(matrix(ncol=20,nrow=nrow(uniqVals))), 
+demo_2006 <- setNames(data.frame(matrix(ncol=22,nrow=nrow(uniqVals))), 
                       c("county","precinct_abbrv", "total_voters","ageInvalid","age18_25","age26_40","age41_65","age65_",
                         "race_black", "race_AmIndian", "race_other_noRspns", "race_white", "race_asian", "race_multiple",
-                        "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse"))
+                        "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse", "party_D", "party_R"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -150,8 +160,12 @@ for (i in 1:nrow(uniqVals)) {
   demo_2006$ethn_nonHisp[i] <- sum(df[as.character(df$ethnic_code)=="NL",]$total_voters)
   demo_2006$ethn_noRspns[i] <- sum(df[is.na(df$ethnic_code) | as.character(df$ethnic_code)=="UN",]$total_voters)
   demo_2006$sex_male[i]     <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
-  demo_2006$sex_female[i]   <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
+  demo_2006$sex_female[i]   <- sum(df[as.character(df$sex_code)=="F",]$total_voters)
   demo_2006$sex_noRspnse[i] <- sum(df[is.na(df$sex_code) | as.character(df$sex_code)=="U",]$total_voters)
+  ####
+  demo_2006$party_D[i]     <- sum(df[as.character(df$party_cd)=="DEM",]$total_voters)
+  demo_2006$party_R[i]     <- sum(df[as.character(df$party_cd)=="REP",]$total_voters)
+  ####
 }; rm(df, voter_stats_20061107)
 demo_2006 <- demo_2006[with(demo_2006, order(county, precinct_abbrv)), ]
 
@@ -161,10 +175,10 @@ voter_stats_20081104$precinct_abbrv <- trimws(voter_stats_20081104$precinct_abbr
 voter_stats_20081104$race_code <- trimws(voter_stats_20081104$race_code)
 voter_stats_20081104$ethnic_code <- trimws(voter_stats_20081104$ethnic_code)
 uniqVals <- unique(voter_stats_20081104[,c("county_desc", "precinct_abbrv")])
-demo_2008 <- setNames(data.frame(matrix(ncol=20,nrow=nrow(uniqVals))), 
+demo_2008 <- setNames(data.frame(matrix(ncol=22,nrow=nrow(uniqVals))), 
                       c("county","precinct_abbrv", "total_voters","ageInvalid","age18_25","age26_40","age41_65","age65_",
                         "race_black", "race_AmIndian", "race_other_noRspns", "race_white", "race_asian", "race_multiple",
-                        "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse"))
+                        "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse", "party_D", "party_R"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -187,8 +201,12 @@ for (i in 1:nrow(uniqVals)) {
   demo_2008$ethn_nonHisp[i] <- sum(df[as.character(df$ethnic_code)=="NL",]$total_voters)
   demo_2008$ethn_noRspns[i] <- sum(df[is.na(df$ethnic_code) | as.character(df$ethnic_code)=="UN",]$total_voters)
   demo_2008$sex_male[i]     <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
-  demo_2008$sex_female[i]   <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
+  demo_2008$sex_female[i]   <- sum(df[as.character(df$sex_code)=="F",]$total_voters)
   demo_2008$sex_noRspnse[i] <- sum(df[is.na(df$sex_code) | as.character(df$sex_code)=="U",]$total_voters)
+  ####
+  demo_2008$party_D[i]     <- sum(df[as.character(df$party_cd)=="DEM",]$total_voters)
+  demo_2008$party_R[i]     <- sum(df[as.character(df$party_cd)=="REP",]$total_voters)
+  ####
 }; rm(df, voter_stats_20081104)
 demo_2008 <- demo_2008[with(demo_2008, order(county, precinct_abbrv)), ]
 
@@ -198,10 +216,10 @@ voter_stats_20101102$precinct_abbrv <- trimws(voter_stats_20101102$precinct_abbr
 voter_stats_20101102$race_code <- trimws(voter_stats_20101102$race_code)
 voter_stats_20101102$ethnic_code <- trimws(voter_stats_20101102$ethnic_code)
 uniqVals <- unique(voter_stats_20101102[,c("county_desc", "precinct_abbrv")])
-demo_2010 <- setNames(data.frame(matrix(ncol=20,nrow=nrow(uniqVals))), 
+demo_2010 <- setNames(data.frame(matrix(ncol=22,nrow=nrow(uniqVals))), 
                       c("county","precinct_abbrv", "total_voters","ageInvalid","age18_25","age26_40","age41_65","age65_",
                         "race_black", "race_AmIndian", "race_other_noRspns", "race_white", "race_asian", "race_multiple",
-                        "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse"))
+                        "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse", "party_D", "party_R"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -224,8 +242,12 @@ for (i in 1:nrow(uniqVals)) {
   demo_2010$ethn_nonHisp[i] <- sum(df[as.character(df$ethnic_code)=="NL",]$total_voters)
   demo_2010$ethn_noRspns[i] <- sum(df[is.na(df$ethnic_code) | as.character(df$ethnic_code)=="UN",]$total_voters)
   demo_2010$sex_male[i]     <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
-  demo_2010$sex_female[i]   <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
+  demo_2010$sex_female[i]   <- sum(df[as.character(df$sex_code)=="F",]$total_voters)
   demo_2010$sex_noRspnse[i] <- sum(df[is.na(df$sex_code) | as.character(df$sex_code)=="U",]$total_voters)
+  ####
+  demo_2010$party_D[i]     <- sum(df[as.character(df$party_cd)=="DEM",]$total_voters)
+  demo_2010$party_R[i]     <- sum(df[as.character(df$party_cd)=="REP",]$total_voters)
+  ####
 }; rm(df, voter_stats_20101102)
 demo_2010 <- demo_2010[with(demo_2010, order(county, precinct_abbrv)), ]
 
@@ -236,10 +258,10 @@ voter_stats_20121106$vtd_abbrv <- trimws(voter_stats_20121106$vtd_abbrv)
 voter_stats_20121106$race_code <- trimws(voter_stats_20121106$race_code)
 voter_stats_20121106$ethnic_code <- trimws(voter_stats_20121106$ethnic_code)
 uniqVals <- unique(voter_stats_20121106[,c("county_desc", "precinct_abbrv")])
-demo_2012 <- setNames(data.frame(matrix(ncol=21,nrow=nrow(uniqVals))), 
+demo_2012 <- setNames(data.frame(matrix(ncol=23,nrow=nrow(uniqVals))), 
                       c("county","precinct_abbrv", "vtd_abbrv", "total_voters","ageInvalid","age18_25","age26_40","age41_65","age65_",
                         "race_black", "race_AmIndian", "race_other_noRspns", "race_white", "race_asian", "race_multiple",
-                        "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse"))
+                        "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse", "party_D", "party_R"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -263,8 +285,12 @@ for (i in 1:nrow(uniqVals)) {
   demo_2012$ethn_nonHisp[i] <- sum(df[as.character(df$ethnic_code)=="NL",]$total_voters)
   demo_2012$ethn_noRspns[i] <- sum(df[is.na(df$ethnic_code) | as.character(df$ethnic_code)=="UN",]$total_voters)
   demo_2012$sex_male[i]     <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
-  demo_2012$sex_female[i]   <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
+  demo_2012$sex_female[i]   <- sum(df[as.character(df$sex_code)=="F",]$total_voters)
   demo_2012$sex_noRspnse[i] <- sum(df[is.na(df$sex_code) | as.character(df$sex_code)=="U",]$total_voters)
+  ####
+  demo_2012$party_D[i]     <- sum(df[as.character(df$party_cd)=="DEM",]$total_voters)
+  demo_2012$party_R[i]     <- sum(df[as.character(df$party_cd)=="REP",]$total_voters)
+  ####
 }; rm(df, voter_stats_20121106)
 demo_2012 <- demo_2012[with(demo_2012, order(county, precinct_abbrv)), ]
 
@@ -275,10 +301,10 @@ voter_stats_20141104$vtd_abbrv <- trimws(voter_stats_20141104$vtd_abbrv)
 voter_stats_20141104$race_code <- trimws(voter_stats_20141104$race_code)
 voter_stats_20141104$ethnic_code <- trimws(voter_stats_20141104$ethnic_code)
 uniqVals <- unique(voter_stats_20141104[,c("county_desc", "precinct_abbrv")])
-demo_2014 <- setNames(data.frame(matrix(ncol=21,nrow=nrow(uniqVals))), 
+demo_2014 <- setNames(data.frame(matrix(ncol=23,nrow=nrow(uniqVals))), 
                       c("county","precinct_abbrv", "vtd_abbrv", "total_voters","ageInvalid","age18_25","age26_40","age41_65","age65_",
                         "race_black", "race_AmIndian", "race_other_noRspns", "race_white", "race_asian", "race_multiple",
-                        "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse"))
+                        "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse", "party_D", "party_R"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -302,8 +328,12 @@ for (i in 1:nrow(uniqVals)) {
   demo_2014$ethn_nonHisp[i] <- sum(df[as.character(df$ethnic_code)=="NL",]$total_voters)
   demo_2014$ethn_noRspns[i] <- sum(df[is.na(df$ethnic_code) | as.character(df$ethnic_code)=="UN",]$total_voters)
   demo_2014$sex_male[i]     <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
-  demo_2014$sex_female[i]   <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
+  demo_2014$sex_female[i]   <- sum(df[as.character(df$sex_code)=="F",]$total_voters)
   demo_2014$sex_noRspnse[i] <- sum(df[is.na(df$sex_code) | as.character(df$sex_code)=="U",]$total_voters)
+  ####
+  demo_2014$party_D[i]     <- sum(df[as.character(df$party_cd)=="DEM",]$total_voters)
+  demo_2014$party_R[i]     <- sum(df[as.character(df$party_cd)=="REP",]$total_voters)
+  ####
 }; rm(df, voter_stats_20141104)
 demo_2014 <- demo_2014[with(demo_2014, order(county, precinct_abbrv)), ]
 
@@ -314,10 +344,10 @@ voter_stats_20161108$vtd_abbrv <- trimws(voter_stats_20161108$vtd_abbrv)
 voter_stats_20161108$race_code <- trimws(voter_stats_20161108$race_code)
 voter_stats_20161108$ethnic_code <- trimws(voter_stats_20161108$ethnic_code)
 uniqVals <- unique(voter_stats_20161108[,c("county_desc", "precinct_abbrv")])
-demo_2016 <- setNames(data.frame(matrix(ncol=21,nrow=nrow(uniqVals))), 
+demo_2016 <- setNames(data.frame(matrix(ncol=23,nrow=nrow(uniqVals))), 
                       c("county","precinct_abbrv", "vtd_abbrv", "total_voters","ageInvalid","age18_25","age26_40","age41_65","age65_",
                         "race_black", "race_AmIndian", "race_other_noRspns", "race_white", "race_asian", "race_multiple",
-                        "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse"))
+                        "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse", "party_D", "party_R"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -341,8 +371,12 @@ for (i in 1:nrow(uniqVals)) {
   demo_2016$ethn_nonHisp[i] <- sum(df[as.character(df$ethnic_code)=="NL",]$total_voters)
   demo_2016$ethn_noRspns[i] <- sum(df[is.na(df$ethnic_code) | as.character(df$ethnic_code)=="UN",]$total_voters)
   demo_2016$sex_male[i]     <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
-  demo_2016$sex_female[i]   <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
+  demo_2016$sex_female[i]   <- sum(df[as.character(df$sex_code)=="F",]$total_voters)
   demo_2016$sex_noRspnse[i] <- sum(df[is.na(df$sex_code) | as.character(df$sex_code)=="U",]$total_voters)
+  ####
+  demo_2016$party_D[i]     <- sum(df[as.character(df$party_cd)=="DEM",]$total_voters)
+  demo_2016$party_R[i]     <- sum(df[as.character(df$party_cd)=="REP",]$total_voters)
+  ####
 }; rm(df, voter_stats_20161108)
 demo_2016 <- demo_2016[with(demo_2016, order(county, precinct_abbrv)), ]
 
@@ -353,10 +387,10 @@ voter_stats_20181106$vtd_abbrv <- trimws(voter_stats_20181106$vtd_abbrv)
 voter_stats_20181106$race_code <- trimws(voter_stats_20181106$race_code)
 voter_stats_20181106$ethnic_code <- trimws(voter_stats_20181106$ethnic_code)
 uniqVals <- unique(voter_stats_20181106[,c("county_desc", "precinct_abbrv")])
-demo_2018 <- setNames(data.frame(matrix(ncol=21,nrow=nrow(uniqVals))), 
+demo_2018 <- setNames(data.frame(matrix(ncol=23,nrow=nrow(uniqVals))), 
                       c("county","precinct_abbrv", "vtd_abbrv", "total_voters","ageInvalid","age18_25","age26_40","age41_65","age65_",
                         "race_black", "race_AmIndian", "race_other_noRspns", "race_white", "race_asian", "race_multiple",
-                        "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse"))
+                        "ethn_hisp", "ethn_nonHisp", "ethn_noRspns", "sex_male", "sex_female", "sex_noRspnse", "party_D", "party_R"))
 for (i in 1:nrow(uniqVals)) {
   Cval <- as.character(uniqVals[i,][1,1])
   Pval <- as.character(uniqVals[i,][1,2])
@@ -380,8 +414,12 @@ for (i in 1:nrow(uniqVals)) {
   demo_2018$ethn_nonHisp[i] <- sum(df[as.character(df$ethnic_code)=="NL",]$total_voters)
   demo_2018$ethn_noRspns[i] <- sum(df[is.na(df$ethnic_code) | as.character(df$ethnic_code)=="UN",]$total_voters)
   demo_2018$sex_male[i]     <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
-  demo_2018$sex_female[i]   <- sum(df[as.character(df$sex_code)=="M",]$total_voters)
+  demo_2018$sex_female[i]   <- sum(df[as.character(df$sex_code)=="F",]$total_voters)
   demo_2018$sex_noRspnse[i] <- sum(df[is.na(df$sex_code) | as.character(df$sex_code)=="U",]$total_voters)
+  ####
+  demo_2018$party_D[i]     <- sum(df[as.character(df$party_cd)=="DEM",]$total_voters)
+  demo_2018$party_R[i]     <- sum(df[as.character(df$party_cd)=="REP",]$total_voters)
+  ####
 }; rm(df, voter_stats_20181106, uniqVals, i, Pval, Cval)
 demo_2018 <- demo_2018[with(demo_2018, order(county, precinct_abbrv)), ]
 
