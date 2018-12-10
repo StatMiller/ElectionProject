@@ -417,6 +417,7 @@ for(i in unique(vtd_matching$id)) {
 rm(list=setdiff(ls(), "all_data"))
 
 
+
 ###
 ###  Generate the variables of interest:
 ###
@@ -428,7 +429,10 @@ all_data$pctVotes_D_of_DR <- all_data$dem_votes / (all_data$dem_votes + all_data
 all_data$pctVotes_nonDR_of_total <- 1 - (all_data$dem_votes + all_data$rep_votes)/all_data$total_votes
 #   countVotes
 all_data$countVotes <- all_data$total_votes
-
+#   countVotes_D
+all_data$countVotes_D <- all_data$dem_votes
+#   countVotes_R
+all_data$countVotes_DR <- (all_data$dem_votes + all_data$rep_votes)
 
 
 
@@ -457,8 +461,9 @@ all_data$presElectionYear <- ifelse( all_data$year%%4==0, 1, 0)
 
 
 all_data <- all_data[,c("year","id","county","precinct_abbrv","lon","lat","presElectionYear",
+                        "countVotes_D", "countVotes_DR",
                         "pctVotes_D_of_DR","pctVotes_nonDR_of_total","countVotes","pctRgstrd_age18_25",
                         "pctRgstrd_age26_40","pctRgstrd_age41_65","pctRgstrd_age66_","pctRgstrd_white",
                         "pctRgstrd_D_of_DR","pctRgstrd_nonDR_of_total","countRgstrd","dist_to_closest_city")]
 # View(all_data)
-save.image("./final_data/final_data.RData")
+# save.image("./final_data/final_data.RData")
