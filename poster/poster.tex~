@@ -1,0 +1,219 @@
+\documentclass[final]{beamer}
+\usepackage[scale=1.24]{beamerposter}
+\usepackage{graphicx}
+\usepackage{lipsum}
+\usepackage[font=small]{caption}
+\newlength{\sepwid}
+\newlength{\colwidside}
+\newlength{\colwidmiddle}
+\setlength{\paperwidth}{56in}
+\setlength{\paperheight}{36in}
+\setlength{\sepwid}{0.03\paperwidth}
+\setlength{\colwidside}{0.25\paperwidth}
+\setlength{\colwidmiddle}{0.38\paperwidth}
+\setlength{\topmargin}{-0.5in}
+%\setlength{\topmargin}{1in}
+\usetheme{confposter}
+\usepackage{exscale}
+
+
+\usecaptiontemplate{
+\small
+\structure{\insertcaptionname~\insertcaptionnumber:}
+\insertcaption}
+% (see beamerthemeconfposter.sty to change color definitions)
+\setbeamercolor{block title}{fg=ngreen,bg=white}
+\setbeamercolor{block body}{fg=black,bg=white}
+\setbeamercolor{block alerted title}{fg=white,bg=dblue!70}
+\setbeamercolor{block alerted body}{fg=black,bg=dblue!10}
+% Making titles
+\title{Predicting National PISA Math Scores}
+\author{Eirik Omre, Simeng Liu, Andrew Giffin}
+\institute{University of Washington, Seattle}
+
+
+% Poster is divided into three columns, and columns divided into 3,1 and 2 blocks (the map in the centre of the poster is not a block, just a graphic). The code in the white region is LaTeX language, and the code in the gray regions is R language.
+
+\usepackage{Sweave}
+\begin{document}
+\input{poster-concordance}
+\begin{frame}[t]
+\begin{columns}[t]
+\begin{column}{\sepwid}\end{column}
+\begin{column}{\colwidside}
+% Block one: Scientific Question.
+\begin{block}{Scientific Question}
+  \textbf{Goal:} \quad To identify factors that are 
+     associated with national averages of
+     PISA math scores --  with the eventual goal of predicting national
+     math aptitude among students in countries that are \emph{not}
+     included in the PISA program.
+\end{block}
+  \vskip2ex
+% Block two: The Data  
+\begin{block}{The Data}
+  \begin{itemize}
+    \item Average math scores from 62 countries (3 removed)
+    \item 5,000-30,000 students in each country 
+  \end{itemize}
+% Creating histograms of transformed and untransformed data.
+% Importing figures created with R above.
+  \begin{figure}
+    \center
+      \includegraphics[width=.35\colwidside]{poster-t1.pdf}
+      \includegraphics[width=.35\colwidside]{poster-t2.pdf}
+    \caption{Histograms of the data, the untransformed data is displayed on the left and the transformed data is on the right, see below for details about the transformation.}
+  \end{figure}
+    
+\end{block}
+  
+\vskip2ex
+% Block 3: Adjusting the data.
+\begin{block}{Adjusting the Data}
+  \begin{itemize}
+    \item Since data are averages over countries -- we first transformed them to
+    to satisfy the homoscedasticity assumption:
+  \end{itemize}
+% Equations for the weights:
+  \[
+    y = X\beta + \epsilon \quad \rightarrow \quad W^{\frac{1}{2}}y = W^{\frac{1}{2}}X\beta + W^{\frac{1}{2}}\epsilon \quad \mbox{,      \quad where}
+  \]
+% Matrix for the weights:
+  \[
+  W^{\frac{1}{2}} = \left[ \begin{array}{ccc}
+  \sqrt{n_1} & \cdots & 0 \\
+  \vdots & \ddots & \vdots \\
+  0 & \cdots &  \sqrt{n_{62}}\\
+  \end{array} \right], \quad n_j = \mbox{number of students in country~} j
+  \]
+
+% Creating the scatter matrices in block 3
+  \begin{figure}
+    \center 
+      \includegraphics[width=0.4\colwidside]{poster-p1.pdf} 
+      \includegraphics[width=0.4\colwidside]{poster-p2.pdf} 
+  \caption{Scatter matrices of some of the untransformed variables (left) and transformed variables (right). $GDP$ denotes GDP per capita, $loc$ denotes if the country is in the Western, Asian or Other category, and $momNwork$ denotes the average percentage of students in the country who has a mom who is not working.}
+  \end{figure}
+\end{block}
+  \vskip2ex
+\end{column}
+
+\begin{column}{\sepwid}\end{column}
+% Starting column 2
+\begin{column}{\colwidmiddle}
+% Importing the map which was created in R and exported as pdf.
+  \begin{figure}[ht]
+      \includegraphics[width=.9\colwidmiddle]{REALscore_WM_LegendE.pdf}
+    \caption{A map depicting the observed test scores for each country. A dark color represents a high score.}
+  \end{figure}
+  \vskip2ex
+% Constructing the Final Model & Prediction block. "alertblock" makes backround light blue with a darker blue frame in order to catch attention to the block.  
+\begin{alertblock}{Final Model $\&$ Prediction}
+  \textbf{Final Model}
+  % Creating and displaying the final model directly from R.
+  {\small
+% latex table generated in R 3.5.1 by xtable 1.8-3 package
+% Tue Dec 11 12:41:46 2018
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+  \hline
+(Intercept) & -307.3524 & 102.7686 & -2.99 & 0.0042 \\ 
+  log(GDP) & 80.3790 & 10.1575 & 7.91 & 0.0000 \\ 
+  locWestern & 416.3502 & 139.9841 & 2.97 & 0.0044 \\ 
+  locOther & 640.5218 & 128.5153 & 4.98 & 0.0000 \\ 
+  log(GDP):locWestern & -43.3499 & 13.6999 & -3.16 & 0.0026 \\ 
+  log(GDP):locOther & -73.3333 & 12.8909 & -5.69 & 0.0000 \\ 
+   \hline
+\end{tabular}
+\end{table}} 
+% Displaying the R^2
+  \[
+   R^2 = 0.853
+  \]
+% Creating the comments on the final model part:  
+  \begin{itemize}
+    \item Only two predictors out of over forty turned out to have a significant impact, see $\textit{Model Selection}$.
+    \item Results within regions are: 
+    \begin{itemize} 
+      \item $Y_{Asia} = -307.4 + 80.4 \times \log(GDP)$
+      \item $Y_{Western} = 109 + 37 \times \log(GDP)$
+      \item $Y_{Other} = 333.1 + 7.1 \times \log(GDP)$
+    \end{itemize}
+  \end{itemize}
+
+  \rule{\textwidth}{1pt}
+% Creating the prediction part of the block
+% Displaying the text and the graph side by side by spltting the column into two, using minipage, and specifying the width. The left side is first:
+% The right side is created second. \\* is used in the caption to jusp to a new line. This is done to avoid the text going into the frame.
+  \textbf{Prediction}
+  
+  \begin{minipage}[t]{0.45\linewidth}
+    \begin{itemize}
+      \item Rich western countries does the best.
+      \item Note that only South-Africa was predicted from the African continent. We decided that this was the only country from the continent that satisfies the assumptions in the model. Greenland was also left out for the same reason.
+    \end{itemize}
+  \end{minipage}
+  \hfill 
+  \begin{minipage}[t]{.6\linewidth}
+    \centering
+    \vspace{-1.5ex}
+    \begin{figure}[ht]
+        \includegraphics[width=.45\colwidmiddle]{PrS_LegendE.pdf}
+      \caption{A map depicting the fitted (for countries in the dataset) \\* and predicted (for countries not in the dataset) test scores for \\* each country. A dark color represents a high score}
+    \end{figure}
+  \end{minipage}
+
+  \end{alertblock}
+  \vskip2ex
+\end{column}
+
+\begin{column}{\sepwid}\end{column}
+
+\begin{column}{\colwidside}
+% New column & block: Model selection
+\begin{block}{Model Selection}
+  
+  Below a graph depicting the model selection process is given. 
+% Importing model selecting graph from pdf file. This was created using microsoft word: smartart.
+  \begin{figure}[ht]
+    \centering
+      \includegraphics[width=.55\colwidmiddle]{modelSelectionGraph-1stpage.pdf}
+    \caption{Each circle represents a factor that was examined. The reduction was performed in three steps, denoted by arrows. The red circles represent factors which we chose to keep, and the blue circles represent factors which we chose to remove after the respective reductions.}
+  \end{figure}
+
+\end{block}
+   \vskip2ex
+   % Creating outliers block
+\begin{block}{Outliers}
+% Splitting the page into two in order to display text and graph side-by-side.
+  \begin{minipage}[t]{0.45\linewidth}
+    It is not suprising that Shanghai, China is an outlier:  
+    \begin{itemize} 
+      \item It is a city not a region or a country.
+      \item One of most developed areas within one of the highest scoring countries.
+    \end{itemize}
+    $\Rightarrow \quad$ Shanghai-China was removed from the data
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[t]{0.75\linewidth}
+    \centering
+    \vspace{-1.5ex}
+    \begin{figure}
+    \centering
+      \includegraphics[width=.4\colwidside]{poster-outliers.pdf}
+    \caption{Plot of residuals vs. fitted values. The outlier $Shanghai-China$ is marked}
+    \end{figure}
+  \end{minipage} 
+
+  \end{block}
+   \vskip2ex
+ 
+\end{column}
+
+\begin{column}{\sepwid}\end{column}
+\end{columns}
+\end{frame}
+\end{document}
