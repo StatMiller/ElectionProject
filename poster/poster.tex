@@ -109,7 +109,36 @@
 \end{block}
   
 \vskip2ex
-\begin{block}{another section?}
+\begin{block}{Modeling Decisions}
+\begin{enumerate}
+\item Type of data
+  \begin{itemize}
+    \item I think binomial is the correct choice now
+    \item We are still modeling the logit of the proportion, but it is within the Binomial model
+  \end{itemize}
+\item Type of Spatiotemporal CAR model
+    \begin{itemize}
+    \item Many options in the package
+    \item I think ST.CARlocalised() is promising because it might detect anomalies that could be linked to election fraud – neat point to talk about on the poster
+    \item 
+  \end{itemize}
+\item How to calculate adjacency matrix
+    \begin{itemize}
+      \item Package allows in most cases to have adjacency matrices with non-binary value
+      \item This kind of makes interpretation weird
+      \item I think we should have a binary adjacency matrix, but we
+        need to decide if there’s a threshold for centroid-centroid
+        distance that we consider ``adjacent'' or if we’re actually
+        doing true adjacency
+  \end{itemize}
+\item How to predict
+    \begin{itemize}
+    \item $\text{expit}(\mathbf{x}_{kt}^T \pmb{\hat{\beta}}+ \psi_{kt})$
+    \item Use estimated demographic values in $x$
+    \item Not sure what to do for estimating the spatio-temporal
+      effects. Regression and extrapolations?
+  \end{itemize}
+\end{enumerate}
 %   \begin{itemize}
 %     \item Since data are averages over countries -- we first transformed them to
 %     to satisfy the homoscedasticity assumption:
@@ -150,7 +179,26 @@
   % \end{figure}
   % \vskip2ex
  \begin{alertblock}{Spatiotemporal Model}
-    
+
+\vspace{.2in}
+   
+\textbf{Variables Definitions}
+\begin{itemize}
+  \item $Y_{kt}$: Number of Democratic votes in precinct $k$ for year
+  $t$
+  \item $n_{kt}$: Sum of Democratic and Republican votes in precinct
+    $k$ for year $t$
+  \item $\theta_{kt}$: Relative proportion of Democratic votes in
+    precinct $k$ for year $t$
+  \item $\mathbf{x_{kt}}$: Vector of covarites in precinct $k$ for
+    year $t$
+  \item $\psi_{kt}$: Latent component incorporating spatiotemporal
+    effects in precinct $k$ for year $t$
+\end{itemize}
+
+  \vspace{.5in}
+
+   
 \textbf{Model form}
 
 \begin{align*}
@@ -196,7 +244,7 @@ $\sum_{j=1}^K \phi_j = \sum_{j=1}^K \delta_j = 0$; \quad
 \item The random effect $\psi_{kt}$ incorporates both the spatial
   effect $\phi_k$ and a linear-trend time component $(\alpha +
   \delta_k \frac{t - \bar{t}}{N})$ for that
-  individual location $k$. (In the above, $int$ and $slo$ correspond
+  individual location $k$. ($int$ and $slo$ refer
   to ``intercept'' and ``slope''.)
 \item The terms $\phi_k$ and $\delta_k$ are modeled using their full
   conditional distributions, as determined by their neighbors
@@ -207,7 +255,7 @@ $\sum_{j=1}^K \phi_j = \sum_{j=1}^K \delta_j = 0$; \quad
 
 
 
-\vspace{3in}
+\vspace{1.5in}
 \textbf{Parameter Estimates}    
    {\small 
      \begin{table}[ht]
@@ -268,15 +316,27 @@ $\sum_{j=1}^K \phi_j = \sum_{j=1}^K \delta_j = 0$; \quad
 % New column & block: Model selection
 \begin{block}{Results}
 
-
-\hspace{8in} 
-%\begin{table}[]
-\begin{tabular}{r|c|c|c}
-  Year & Model & Data & Reality \\
+  \vspace{.2in}
+    \begin{minipage}[t]{0.45\linewidth}
+    \begin{itemize} 
+      \item \emph{Fitted} is based off our model fit, for the precincts included.
+      \item \emph{Data} is based off the true data, for the precincts
+        included.
+      \item \emph{Reality} shows the actual observed election counts.
+    \end{itemize}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.75\linewidth}
+    \centering
+    \vspace{-1.5ex} 
+    \begin{figure}
+    \centering
+      \begin{tabular}{r|c|c|c}
+  Year & Fitted & Data & Reality \\
   \hline
   2002  & 6 & 6 & 6 \\
   2004  & 7 & 6 & 6 \\
-  2006  & 6 & 7 & 7 \\
+  2006  & 6 & 7 & 7 \\ 
   2008  & 6 & 8 & 8 \\
   2010  & 6 & 8 & 7 \\
   2012  & 3 & 3 & 4 \\
@@ -284,7 +344,12 @@ $\sum_{j=1}^K \phi_j = \sum_{j=1}^K \delta_j = 0$; \quad
   2016  & 4 & 3 & 3 \\
   2018  & 3 & 4 & 2 or 3 \\
 \end{tabular}
-%\end{table}
+
+    \caption{Total Democratic District Winners}
+    \end{figure}
+  \end{minipage} 
+
+
 
   
 % Below a graph depicting the model selection process is given. 
@@ -300,22 +365,6 @@ $\sum_{j=1}^K \phi_j = \sum_{j=1}^K \delta_j = 0$; \quad
    
  \vspace{8in}
  \begin{block}{Conclusions}
-  % \begin{minipage}[t]{0.45\linewidth}
-  %   \begin{itemize} 
-  %     \item blah
-  %     \item blah
-  %   \end{itemize}
-  % \end{minipage}
-  % \hfill
-  % \begin{minipage}[t]{0.75\linewidth}
-  %   \centering
-  %   \vspace{-1.5ex}
-  %   \begin{figure}
-  %   \centering
-  %     \includegraphics[width=.4\colwidside]{poster-outliers.pdf}
-  %   \caption{blah blah blah}
-  %   \end{figure}
-  % \end{minipage} 
 
   \end{block}
    \vskip2ex
