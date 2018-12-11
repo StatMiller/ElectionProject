@@ -235,8 +235,7 @@ $(t-\bar{t})/N$ runs over $[-\frac{1}{2}, \frac{1}{2}]$; \quad
 $\beta_1$ is the first element of $\mathbf{\beta}$; \quad
 $k = 1, \ldots, K$, where $K$ is the number of precincts; \quad
 $t=1, \ldots, T=9$; \quad
-$\sum_{j=1}^K \phi_j = \sum_{j=1}^K \delta_j = 0$; \quad
-
+$\sum_{j=1}^K \phi_j = \sum_{j=1}^K \delta_j = 0$.
 
 \vspace{.5in}
 
@@ -280,7 +279,7 @@ $\sum_{j=1}^K \phi_j = \sum_{j=1}^K \delta_j = 0$; \quad
   % Creating the comments on the final model part:
 
   
-  \rule{\textwidth}{1pt}
+%  \rule{\textwidth}{1pt}
 % Creating the prediction part of the block
 % Displaying the text and the graph side by side by spltting the column into two, using minipage, and specifying the width. The left side is first:
 % The right side is created second. \\* is used in the caption to jusp to a new line. This is done to avoid the text going into the frame.
@@ -335,13 +334,14 @@ $\sum_{j=1}^K \phi_j = \sum_{j=1}^K \delta_j = 0$; \quad
   Year & Fitted & Data & Reality \\
   \hline
   2002  & 6 & 6 & 6 \\
-  2004  & 7 & 6 & 6 \\
+  2004  & 6 & 6 & 6 \\
   2006  & 6 & 7 & 7 \\ 
-  2008  & 6 & 8 & 8 \\
-  2010  & 6 & 8 & 7 \\
+  2008  & 7 & 8 & 8 \\
+  2010  & 4 & 8 & 7 \\
   2012  & 3 & 3 & 4 \\
   2014  & 3 & 3 & 3 \\
   2016  & 4 & 3 & 3 \\
+  \hline      
   2018  & 3 & 4 & 2 or 3 \\
 \end{tabular}
 
@@ -365,8 +365,12 @@ $\sum_{j=1}^K \phi_j = \sum_{j=1}^K \delta_j = 0$; \quad
    
  \vspace{8in}
  \begin{block}{Conclusions}
-
-  \end{block}
+\begin{itemize}
+  \item Because of Gerrymandering -- the final vote results are
+    surprisingly invariant to precinct level voting changes.
+  \item As expected, the $\beta$ values 
+\end{itemize}   
+ \end{block}
    \vskip2ex
  
 \end{column}
